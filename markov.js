@@ -27,16 +27,18 @@ class MarkovMachine {
    * */
 
   getChains() {
-    const chain = {};
+
+    const chains = {};
     for (let i = 0; i < this.words.length; i++) {
       let word = this.words[i];
-      if (chain[word] === undefined) {
-        chain[word] = [this.words[i + 1] || null];
+
+      if (word in chains) {
+        chains[word] = [this.words[i + 1] || null];
       } else {
-        chain[word].push(this.words[i + 1] || null);
+        chains[word].push(this.words[i + 1] || null);
       }
     }
-    return chain;
+    return chains;
   }
 
 
@@ -49,13 +51,15 @@ class MarkovMachine {
     // - repeat until reaching the terminal null
 
     let text = [this.words[0]]; // the cat (length = 2, cat = idx = 1 cat: [ hat, is whatever]
+    let randomIdx = 0;
 
 
-    while (true) {
+    while (this.chains[lastWord][randomIdx]) {
 
+      //TODO: moving the random function to a helper function
       let lastWord = text[text.length - 1];
-      let randomIdx = Math.floor(
-        (Math.random() * this.chains[lastWord].length) + 1
+      randomIdx = Math.floor(
+        (Math.random() * this.chains[lastWord].length)
       );
 
       // console.log("lastWord=", lastWord);
@@ -65,11 +69,10 @@ class MarkovMachine {
         text.push(this.chains[lastWord][randomIdx]);
         // console.log('pushing!');
         // console.log('text=',text);
-      } else {
-        // console.log(text.join(" "));
-        return (text.join(" "));
       }
     }
+
+    return text.join(" ");
   }
 }
 
