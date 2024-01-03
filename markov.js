@@ -32,7 +32,7 @@ class MarkovMachine {
     for (let i = 0; i < this.words.length; i++) {
       let word = this.words[i];
 
-      if (word in chains) {
+      if (!(word in chains)) {
         chains[word] = [this.words[i + 1] || null];
       } else {
         chains[word].push(this.words[i + 1] || null);
@@ -52,24 +52,24 @@ class MarkovMachine {
 
     let text = [this.words[0]]; // the cat (length = 2, cat = idx = 1 cat: [ hat, is whatever]
     let randomIdx = 0;
-
+    let lastWord = text[0];
 
     while (this.chains[lastWord][randomIdx]) {
 
       //TODO: moving the random function to a helper function
-      let lastWord = text[text.length - 1];
+      console.log('lastWord: ', lastWord);
       randomIdx = Math.floor(
         (Math.random() * this.chains[lastWord].length)
       );
-
+      
       // console.log("lastWord=", lastWord);
 
-      if (this.chains[lastWord][randomIdx]) {
-        // console.log("made it to the if condition")
-        text.push(this.chains[lastWord][randomIdx]);
-        // console.log('pushing!');
-        // console.log('text=',text);
-      }
+      // console.log("made it to the if condition")
+      text.push(this.chains[lastWord][randomIdx]);
+      // console.log('pushing!');
+      console.log('text=',text);
+      
+      let lastWord = text[text.length - 1];
     }
 
     return text.join(" ");
