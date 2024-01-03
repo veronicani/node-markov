@@ -50,26 +50,30 @@ class MarkovMachine {
     // - find a random word from the following-words of that -> random int
     // - repeat until reaching the terminal null
 
-    let text = [this.words[0]]; // the cat (length = 2, cat = idx = 1 cat: [ hat, is whatever]
+    // let text = [this.words[0]]; // the cat (length = 2, cat = idx = 1 cat: [ hat, is whatever]
+    // let randomIdx = 0;
+    // let lastWord = text[0];
+
+    let text = [];
     let randomIdx = 0;
-    let lastWord = text[0];
+    let nextWord = this.words[0]
 
-    while (this.chains[lastWord][randomIdx]) {
+    while (nextWord) {
 
-      //TODO: moving the random function to a helper function
-      console.log('lastWord: ', lastWord);
+      // console.log('lastWord: ', lastWord);
       randomIdx = Math.floor(
-        (Math.random() * this.chains[lastWord].length)
+        (Math.random() * this.chains[nextWord].length)
       );
-      
       // console.log("lastWord=", lastWord);
 
       // console.log("made it to the if condition")
-      text.push(this.chains[lastWord][randomIdx]);
+      text.push(nextWord);
       // console.log('pushing!');
       console.log('text=',text);
-      
-      let lastWord = text[text.length - 1];
+
+      nextWord = this.chains[nextWord][randomIdx];
+
+      // let lastWord = text[text.length - 1];
     }
 
     return text.join(" ");
