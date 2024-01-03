@@ -27,7 +27,16 @@ class MarkovMachine {
    * */
 
   getChains() {
-    // TODO: implement this!
+    const chain = {};
+    for (let i = 0; i < this.words.length; i++) {
+      let word = this.words[i];
+      if (chain[word] === undefined) {
+        chain[word] = [this.words[i + 1] || null];
+      } else {
+        chain[word].push(this.words[i + 1] || null);
+      }
+    }
+    return chain;
   }
 
 
@@ -42,3 +51,8 @@ class MarkovMachine {
     // - repeat until reaching the terminal null
   }
 }
+
+
+module.exports = {
+  MarkovMachine,
+};
